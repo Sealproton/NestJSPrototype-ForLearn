@@ -5,6 +5,7 @@ import {
   AfterRemove,
   AfterUpdate,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
 //Its decorator to help TypeORm to understand some dif properties we going to add to entity
 @Entity()
 export class User {
@@ -15,6 +16,7 @@ export class User {
   email: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @AfterUpdate()
