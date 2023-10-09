@@ -17,13 +17,14 @@ import { UserService } from './user.service';
 import { UserDto } from './dtos/user-dto';
 import { Serialize } from 'src/Interceptors/serialize.interceptor';
 @Controller('auth')
+@Serialize(UserDto)
 export class UserController {
   constructor(private userService: UserService) {}
   @Post('/signup')
   createUser(@Body() body: CreateUserDto) {
     this.userService.create(body.email, body.password);
   }
-  @Serialize(UserDto)
+  // @UseInterceptors(new SerializeInterceptor(UserDto))
   @Get('/:id')
   async findUser(@Param('id') id: string) {
     const user = await this.userService.findOne(Number(id));
