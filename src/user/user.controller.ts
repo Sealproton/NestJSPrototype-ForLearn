@@ -7,6 +7,7 @@ import {
   Delete,
   Param,
   Query,
+  Session,
   NotFoundException,
   UseInterceptors,
   ClassSerializerInterceptor,
@@ -16,13 +17,37 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserService } from './user.service';
 import { UserDto } from './dtos/user-dto';
 import { Serialize } from 'src/Interceptors/serialize.interceptor';
+import { AuthService } from './auth.service';
+
 @Controller('auth')
 @Serialize(UserDto)
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private autsService: AuthService,
+  ) {}
+
   @Post('/signup')
-  createUser(@Body() body: CreateUserDto) {
-    this.userService.create(body.email, body.password);
+  async createUser(
+    @Body() { email, password }: CreateUserDto,
+    @Session() session: any,
+  ) {
+    const user = await this.autsService.signUp(email, password);
+    session.userID = user.id;
+    return user;
+  }
+  @Post('/signin')
+  async signin(
+    @Body() { email, password }: CreateUserDto,
+    @Session() session: any,
+  ) {
+    const user = await this.autsService.signIn(email, password);
+    session.userID = user.id;
+    return user;
+  }
+  @Post('/signout')
+  signout(@Session() session: any) {
+    session.userID = null;
   }
   // @UseInterceptors(new SerializeInterceptor(UserDto))
   @Get('/:id')
