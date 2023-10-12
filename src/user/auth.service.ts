@@ -10,6 +10,7 @@ const scrypt = promisify(_scrypt);
 @Injectable()
 export class AuthService {
   constructor(private userService: UserService) {}
+
   async signUp(email: string, password: string) {
     const user = await this.userService.find(email);
     if (user.length) {
