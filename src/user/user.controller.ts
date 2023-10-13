@@ -17,11 +17,11 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserService } from './user.service';
 import { UserDto } from './dtos/user-dto';
-import { Serialize } from 'src/Interceptors/serialize.interceptor';
+import { Serialize } from '../Interceptors/serialize.interceptor';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { User } from './user.entity';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 @Controller('auth')
 @Serialize(UserDto)
 export class UserController {
