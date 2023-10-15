@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext } from '@nestjs/common/interfaces';
 import { Observable } from 'rxjs';
-
+//Executioncontext is wrapper of in coming request
 export class AuthGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
