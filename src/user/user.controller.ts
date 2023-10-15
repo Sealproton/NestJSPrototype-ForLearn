@@ -55,7 +55,7 @@ export class UserController {
 
   @Get('/whoami')
   @UseGuards(AuthGuard)
-  whoami(@CurrentUser() user: User) {
+  whoami(@CurrentUser() user: User, @Session() session: any) {
     return user;
   }
 

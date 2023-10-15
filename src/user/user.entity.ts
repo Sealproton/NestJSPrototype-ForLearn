@@ -4,7 +4,9 @@ import {
   PrimaryGeneratedColumn,
   AfterRemove,
   AfterUpdate,
+  OneToMany,
 } from 'typeorm';
+import { Report } from 'src/report/report.entity';
 //Its decorator to help TypeORm to understand some dif properties we going to add to entity
 @Entity()
 export class User {
@@ -16,6 +18,9 @@ export class User {
 
   @Column()
   password: string;
+
+  @OneToMany(() => Report, (report) => report.user)
+  reports: Report[];
 
   @AfterUpdate()
   logUpdate() {
