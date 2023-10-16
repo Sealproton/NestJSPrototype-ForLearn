@@ -1,4 +1,9 @@
-import { Module, ValidationPipe, MiddlewareConsumer } from '@nestjs/common';
+import {
+  Module,
+  ValidationPipe,
+  MiddlewareConsumer,
+  Injectable,
+} from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -39,12 +44,14 @@ const cookieSession = require('cookie-session');
     },
   ],
 })
+@Injectable()
 export class AppModule {
+  constructor(private config: ConfigService) {}
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(
         cookieSession({
-          keys: ['awdaegafhb'],
+          keys: [this.config.get<string>('COOKIE_KEY')],
         }),
       )
       .forRoutes('*');
